@@ -3,11 +3,12 @@ import ImageGallery from '../ImageGallery/ImageGallery';
 import Loader from '../Loader/Loader';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import SearchBar from '../SearchBar/SearchBar';
-import galleryQuery from '../../../API-query/gallery-query';
+import galleryQuery from '../API-query/gallery-query';
 import { useEffect, useState } from 'react';
 import ImageModal from '../ImageModal/ImageModal';
 import { Slide, toast, ToastContainer } from 'react-toastify';
 import { ImageGalleryItem } from './App.types';
+import { UnsplashResponse } from '../API-query/gallery-query.types';
 
 export default function App() {
   const [items, setItems] = useState<ImageGalleryItem[]>([]);
@@ -31,8 +32,8 @@ export default function App() {
       try {
         setErrors(false);
         setLoader(true);
-        const response = await galleryQuery(query, page);
-        const data = response.data.results;
+        const response:UnsplashResponse = await galleryQuery(query, page);
+        const data = response.results;
 
         if (!data || data.length === 0) {
           toast.error('Sorry, nothing found...', {
